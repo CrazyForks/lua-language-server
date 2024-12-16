@@ -3943,6 +3943,34 @@ TEST 'number' [[
 local function f(<?x?>) end
 ]]
 
+TEST 'number' [[
+---@type fun(x:number)[]
+local t = {
+    function (<?x?>) end,
+}
+]]
+
+TEST 'number' [[
+---@type fun(x:number)[]
+local t = {
+    [1] = function (<?x?>) end,
+}
+]]
+
+TEST 'number' [[
+---@type {[integer]: fun(x:number)}
+local t = {
+    function (<?x?>) end,
+}
+]]
+
+TEST 'number' [[
+---@type {[integer]: fun(x:number)}
+local t = {
+    [1] = function (<?x?>) end,
+}
+]]
+
 TEST 'boolean' [[
 ---@generic T: string | boolean | table
 ---@param x T
@@ -4672,4 +4700,76 @@ local function F(...)
     for <?k?> in pairs(t) do
     end
 end
+]]
+
+TEST '1' [[
+---@type [1, 2, 3]
+local t
+
+---@generic T1, T2, T3, T4, T5, T6, T7, T8, T9, T10
+---@param arr {
+--- [1]?: T1,
+--- [2]?: T2,
+--- [3]?: T3,
+--- [4]?: T4,
+--- [5]?: T5,
+--- [6]?: T6,
+--- [7]?: T7,
+--- [8]?: T8,
+--- [9]?: T9,
+--- [10]?: T10,
+---}
+---@return T1, T2, T3, T4, T5, T6, T7, T8, T9, T10
+local function unpack(arr)
+end
+
+local <?a?>, b, c, d = unpack(t)
+]]
+
+TEST '2' [[
+---@type [1, 2, 3]
+local t
+
+---@generic T1, T2, T3, T4, T5, T6, T7, T8, T9, T10
+---@param arr {
+--- [1]?: T1,
+--- [2]?: T2,
+--- [3]?: T3,
+--- [4]?: T4,
+--- [5]?: T5,
+--- [6]?: T6,
+--- [7]?: T7,
+--- [8]?: T8,
+--- [9]?: T9,
+--- [10]?: T10,
+---}
+---@return T1, T2, T3, T4, T5, T6, T7, T8, T9, T10
+local function unpack(arr)
+end
+
+local a, <?b?>, c, d = unpack(t)
+]]
+
+TEST '3' [[
+---@type [1, 2, 3]
+local t
+
+---@generic T1, T2, T3, T4, T5, T6, T7, T8, T9, T10
+---@param arr {
+--- [1]?: T1,
+--- [2]?: T2,
+--- [3]?: T3,
+--- [4]?: T4,
+--- [5]?: T5,
+--- [6]?: T6,
+--- [7]?: T7,
+--- [8]?: T8,
+--- [9]?: T9,
+--- [10]?: T10,
+---}
+---@return T1, T2, T3, T4, T5, T6, T7, T8, T9, T10
+local function unpack(arr)
+end
+
+local a, b, <?c?>, d = unpack(t)
 ]]
