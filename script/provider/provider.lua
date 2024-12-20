@@ -19,6 +19,7 @@ local furi       = require 'file-uri'
 local inspect    = require 'inspect'
 local guide      = require 'parser.guide'
 local fs         = require 'bee.filesystem'
+local version    = require 'version'
 
 require 'library'
 
@@ -128,6 +129,7 @@ m.register 'initialize' {
             capabilities = cap.getProvider(),
             serverInfo   = {
                 name    = 'sumneko.lua',
+                version = version.getVersion(),
             },
         }
         log.debug('Server init', inspect(response))
@@ -362,7 +364,7 @@ m.register 'textDocument/hover' {
             return nil
         end
         local pos = converter.unpackPosition(state, params.position)
-        local hover, source = core.byUri(uri, pos)
+        local hover, source, maxLevel = core.byUri(uri, pos, params.level or 1)
         if not hover or not source then
             return nil
         end
@@ -372,6 +374,7 @@ m.register 'textDocument/hover' {
                 kind  = 'markdown',
             },
             range = converter.packRange(state, source.start, source.finish),
+            maxLevel = maxLevel,
         }
     end
 }
